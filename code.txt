@@ -1,0 +1,213 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int currentScreen = 0;
+
+  void goToNextScreen() {
+    setState(() {
+      currentScreen++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget screen;
+    if (currentScreen == 0) {
+      screen = WelcomeScreen(onPressed: goToNextScreen);
+    } else if (currentScreen == 1) {
+      screen = LoginScreen(onPressed: goToNextScreen);
+    } else {
+      screen = OTPScreen();
+    }
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Color(0xFFE0F7FA), 
+        body: screen,
+      ),
+    );
+  }
+}
+
+//screen 1
+class WelcomeScreen extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  WelcomeScreen({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        SizedBox.expand(
+          child: Image.network(
+            'https://png.pngtree.com/png-vector/20230728/ourlarge/pngtree-handicapped-clipart-boy-sitting-in-wheelchair-cartoon-vector-png-image_6800292.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+        Container(color: Colors.white.withOpacity(0.2)),
+        Padding(
+          padding: EdgeInsets.fromLTRB(20, 60, 20, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'دعم وتمكين لمستقبل أفضل لفئاتنا الخاصة',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xFF01579B),
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Spacer(),
+              ElevatedButton(
+                onPressed: onPressed,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF0288D1),
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                child: Text('دعنا نبدأ', style: TextStyle(fontSize: 18)),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+//screen 2
+class LoginScreen extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  LoginScreen({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'أهلاً بك، نحن سعداء بعودتك\nمن فضلك قم بتسجيل الدخول',
+            style: TextStyle(fontSize: 18, color: Color(0xFF01579B)),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 30),
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'رقم الهاتف',
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: 'كلمة المرور',
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'هل نسيت كلمة المرور؟',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF0288D1),
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text('تسجيل الدخول'),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'ليس لديك حساب؟ إنشاء حساب',
+            style: TextStyle(color: Color(0xFF01579B)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//screen 3
+class OTPScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'أدخل رمز التحقق\nلقد أرسلنا الكود الخاص بك إلى 010*****000\nسينتهي هذا الكود خلال 00:30',
+            style: TextStyle(fontSize: 18, color: Color(0xFF01579B)),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(
+              6,
+              (index) => Container(
+                width: 40,
+                height: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text('*', style: TextStyle(fontSize: 24)),
+              ),
+            ),
+          ),
+          SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF0288D1),
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text('تأكيد'),
+          ),
+        ],
+      ),
+    );
+  }
+}
